@@ -1,0 +1,13 @@
+{
+  "name": "my-tool",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "lumo -c src -m kubee.core"
+  },
+  "dependencies": {
+    "discord.js": "^11.4.2",
+    "lumo-cljs": "^1.8.0",
+    "request": "^2.85.0",
+    "shelljs": "^0.8.2"
+  }
+}
