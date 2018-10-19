@@ -2,6 +2,9 @@
 
 (def token js/process.env.DISCORD_TOKEN)
 
+(when (clojure.string/blank? token)
+  (prn "Missing token configuration from env.DISCORD_TOKEN"))  
+
 (def dc (js/require "discord.js"))
 (def client (new dc.Client))
 
@@ -18,13 +21,18 @@
         (prn :seq (count p))
         (reply msg (clojure.string/join "\n" p)))))
 
+(defn reply-2000 [msg text]
+  (doseq [ln (partition 1900 1900 [] text)]
+    (prn :seq (count ln))
+    (reply msg (str "```\n" (clojure.string/join "" ln) "\n```"))))              
+
 (defn get-pod [msg [k-ns]]
   (prn :ns k-ns)
   (sh.exec
    (str "kubectl get pod -n " k-ns)
    (fn [code out err]
      (when out
-      (reply-ln msg out))
+      (reply-2000 msg out))
      (when (not= code 0)
       (reply-ln msg (str ":boom: get pod error: " err)))))) 
         
@@ -38,7 +46,7 @@
      (str "kubectl logs -n " k-ns " --tail=" log-tail " " k-pod)
      (fn [code out err]
        (when out
-        (reply-ln msg out))
+        (reply-2000 msg out))
        (when (not= code 0)
         (reply-ln msg (str ":boom: get log error: " err)))))))    
         
