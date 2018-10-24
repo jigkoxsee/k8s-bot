@@ -5,7 +5,7 @@
 
 (when (cstr/blank? token)
   (prn "Missing token configuration from env.DISCORD_TOKEN")
-  (js/process.exit 1))  
+  (js/process.exit 1))
 
 (def dc (js/require "discord.js"))
 (def client (new dc.Client))
@@ -26,7 +26,16 @@
 (defn reply-2000 [msg text]
   (doseq [ln (partition 1900 1900 [] text)]
     (prn :seq (count ln))
-    (reply msg (str "```\n" (cstr/join "" ln) "\n```"))))              
+    (reply msg (str "```\n" (cstr/join "" ln) "\n```"))))
+
+(defn get-ns [msg]
+  (sh.exec
+   (str "kubectl get namespaces")
+   (fn [code out err]
+     (when out
+       (reply-2000 msg out))
+     (when (not= code 0)
+       (reply-ln msg (str ":boom: get namespaces error: " err))))))
 
 (defn get-pod [msg [k-ns]]
   (prn :ns k-ns)
@@ -36,22 +45,20 @@
      (when out
       (reply-2000 msg out))
      (when (not= code 0)
-      (reply-ln msg (str ":boom: get pod error: " err)))))) 
-        
+      (reply-ln msg (str ":boom: get pod error: " err))))))
 
 (defn get-log [msg [k-ns k-pod k-tail]]
   (when (some nil? [k-ns k-pod k-tail])
     (reply msg "not enough param"))
   (let [log-tail (min 50 k-tail)]
     (prn :ns k-ns :pod k-pod :tail log-tail)
-    (sh.exec 
+    (sh.exec
      (str "kubectl logs -n " k-ns " --tail=" log-tail " " k-pod)
      (fn [code out err]
        (when out
         (reply-2000 msg out))
        (when (not= code 0)
-        (reply-ln msg (str ":boom: get log error: " err)))))))    
-        
+        (reply-ln msg (str ":boom: get log error: " err)))))))
 
 (.on client "ready" #(prn :connected-and-ready))
 
@@ -62,24 +69,27 @@
                         (cstr/split " "))
              filtered (filter #(not (cstr/blank? %)) params)
              cmd    (first params)]
-         
+
          (prn :cmd cmd)
          (prn :params filtered)
 
          (when (= cmd "!!ping")
            (reply msg "!ping"))
-     
+
          (when (= cmd "!ping")
            (reply msg "Pong"))
-         
-         (when (= cmd "!log")
-           (get-log msg (rest filtered)))  
-     
-         (when (= cmd "!pod")
-           (get-pod msg (rest filtered))))))  
-           
 
-(defn -main [args] 
+         (when (= cmd "!ns")
+           (get-ns msg))
+
+         (when (= cmd "!log")
+           (get-log msg (rest filtered)))
+
+         (when (= cmd "!pod")
+           (get-pod msg (rest filtered))))))
+
+
+(defn -main [args]
   (js/console.log "hello" args)
   (prn :start args)
   (prn :token token)
