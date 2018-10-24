@@ -1,9 +1,11 @@
-(ns kubee.core)
+(ns kubee.core 
+  (:require [clojure.string :as cstr]))
 
 (def token js/process.env.DISCORD_TOKEN)
 
-(when (clojure.string/blank? token)
-  (prn "Missing token configuration from env.DISCORD_TOKEN"))  
+(when (cstr/blank? token)
+  (prn "Missing token configuration from env.DISCORD_TOKEN")
+  (js/process.exit 1))  
 
 (def dc (js/require "discord.js"))
 (def client (new dc.Client))
@@ -16,15 +18,15 @@
     (prn :not-reply-bot)))
 
 (defn reply-ln [msg text]
-  (let [lines  (clojure.string/split-lines text)]
+  (let [lines  (cstr/split-lines text)]
      (doseq [p (partition 10 10 "" lines)]
         (prn :seq (count p))
-        (reply msg (clojure.string/join "\n" p)))))
+        (reply msg (cstr/join "\n" p)))))
 
 (defn reply-2000 [msg text]
   (doseq [ln (partition 1900 1900 [] text)]
     (prn :seq (count ln))
-    (reply msg (str "```\n" (clojure.string/join "" ln) "\n```"))))              
+    (reply msg (str "```\n" (cstr/join "" ln) "\n```"))))              
 
 (defn get-pod [msg [k-ns]]
   (prn :ns k-ns)
@@ -57,8 +59,8 @@
      (fn [msg]
        (let [remove-space (filter #(not= " " %))
              params (-> msg.content
-                        (clojure.string/split " "))
-             filtered (filter #(not (clojure.string/blank? %)) params)
+                        (cstr/split " "))
+             filtered (filter #(not (cstr/blank? %)) params)
              cmd    (first params)]
          
          (prn :cmd cmd)
