@@ -1,5 +1,5 @@
 {
-  "name": "my-tool",
+  "name": "kubee",
   "version": "1.0.0",
   "scripts": {
     "start": "lumo -c src -m kubee.core"
