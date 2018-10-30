@@ -31,11 +31,12 @@
                 text (rest args)]
           
             (case cmd
-              "!ping"  (chat/reply msg "pong")
-              "!!ping" (chat/reply msg "!ping")
-              "!ns"    (basic/get-ns msg)
-              "!pod"   (basic/get-pod msg text)
-              "!log"   (basic/get-log msg text)
+              "!ping"      (chat/reply msg "pong")
+              "!!ping"     (chat/reply msg "!ping")
+              "!ns"        (basic/get-ns msg)
+              "!deploy"    (basic/get-deploy msg text)
+              "!pod"       (basic/get-pod msg text)
+              "!log"       (basic/get-log msg text)
               (prn :unknown-cmd)))))
 
     (.login client token)))

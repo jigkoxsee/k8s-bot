@@ -14,6 +14,15 @@
      (when (not= code 0)
        (chat/reply msg (str ":boom: get namespaces error: " err))))))
 
+(defn get-deploy [msg [k-ns]]
+  (sh.exec
+   (str "kubectl get deployments -n " k-ns)
+   (fn [code out err]
+     (when out
+       (chat/reply msg out))
+     (when (not= code 0)
+       (chat/reply msg (str ":boom: get deployments error: " err))))))
+
 
 (defn get-pod [msg [k-ns]]
   (sh.exec
