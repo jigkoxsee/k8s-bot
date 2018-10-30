@@ -43,7 +43,17 @@
       (chat/reply msg out))
      (when (not= code 0)
       (chat/reply msg (str ":boom: get pod error: " err)))))) 
-        
+
+
+(defn describe-ns [msg [k-ns]]
+  (sh.exec
+   (str "kubectl describe namespace " k-ns)
+   (fn [code out err]
+     (when out
+       (chat/reply msg out))
+     (when (not= code 0)
+       (chat/reply msg (str ":boom: describe namespace error: " err))))))
+
 
 (defn get-log [msg [k-ns k-pod k-tail]]
   (when (some nil? [k-ns k-pod k-tail])
