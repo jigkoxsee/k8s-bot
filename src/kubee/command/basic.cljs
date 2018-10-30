@@ -55,6 +55,16 @@
        (chat/reply msg (str ":boom: describe namespace error: " err))))))
 
 
+(defn describe-deploy [msg [k-ns k-deploy]]
+  (sh.exec
+   (str "kubectl describe deployments -n " k-ns " " k-deploy)
+   (fn [code out err]
+     (when out
+       (chat/reply msg out))
+     (when (not= code 0)
+       (chat/reply msg (str ":boom: describe deploy error: " err))))))
+
+
 (defn get-log [msg [k-ns k-pod k-tail]]
   (when (some nil? [k-ns k-pod k-tail])
     (chat/reply msg "not enough param"))

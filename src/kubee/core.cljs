@@ -40,6 +40,10 @@
               "!kgs"       (basic/get-service msg text)
             
               "!kdn"       (basic/describe-ns msg text)
+              "!kdd"       (basic/describe-deploy msg text)
+              ;; kdeld - delete deployment
+              ;; kdelp - delete pod
+              ;; kdels - delete service
             
               "!klf"       (basic/get-log msg text)
 
