@@ -35,6 +35,7 @@
               "!!ping"     (chat/reply msg "!ping")
               "!ns"        (basic/get-ns msg)
               "!deploy"    (basic/get-deploy msg text)
+              "!svc"       (basic/get-service msg text)
               "!pod"       (basic/get-pod msg text)
               "!log"       (basic/get-log msg text)
               (prn :unknown-cmd)))))
