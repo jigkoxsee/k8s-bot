@@ -39,6 +39,8 @@
               "!kgp"       (basic/get-pod msg text)
               "!kgs"       (basic/get-service msg text)
             
+              "!kdn"       (basic/describe-ns msg text)
+            
               "!klf"       (basic/get-log msg text)
 
               (prn :unknown-cmd)))))
