@@ -33,11 +33,14 @@
             (case cmd
               "!ping"      (chat/reply msg "pong")
               "!!ping"     (chat/reply msg "!ping")
-              "!ns"        (basic/get-ns msg)
-              "!deploy"    (basic/get-deploy msg text)
-              "!svc"       (basic/get-service msg text)
-              "!pod"       (basic/get-pod msg text)
-              "!log"       (basic/get-log msg text)
+            
+              "!kns"       (basic/get-ns msg)
+              "!kgd"       (basic/get-deploy msg text)
+              "!kgp"       (basic/get-pod msg text)
+              "!kgs"       (basic/get-service msg text)
+            
+              "!klf"       (basic/get-log msg text)
+
               (prn :unknown-cmd)))))
 
     (.login client token)))
