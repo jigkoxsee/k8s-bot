@@ -7,15 +7,15 @@ Sometime I want to access a k8s cluster but I don't my terminal at hand. That's 
 This built with no security feature in mind. Use it at yours own risk XD
 
 ## Features
-- [ ] List
+- [X] List
   - [X] namespace
-  - [ ] deployment
-  - [ ] service
+  - [X] deployment
+  - [X] service
   - [X] pod
 
 - [ ] Describe
-  - [ ] namespace
-  - [ ] deployment
+  - [X] namespace
+  - [X] deployment
   - [ ] service
   - [ ] pod
 
