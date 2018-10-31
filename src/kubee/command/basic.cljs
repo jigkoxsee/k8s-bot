@@ -5,6 +5,19 @@
 
 (def sh (js/require "shelljs"))
 
+(defn get-help [msg]
+      (chat/reply msg (str "usage/available commands:\n
+      !ping\t\t\t\tping to chatbot\n
+      !!ping\t\t\t\tget how to ping message\n
+      !kns\t\tlist namespaces\n
+      !kgd <namespace>\t\t\t\tlist deployment in namespace\n
+      !kgp <namespace>\t\t\t\tlist pod in namespace\n
+      !kgs <namespace>\t\t\t\tlist service in namespace\n
+      \n
+      !kdn [namespace]\t\t\t\t describe namespaces with optional namespace name\n
+      !kdd <namespace> [deployment]\t\t\t\tdescribe deployment with optional deployment name\n
+      ")))
+
 (defn get-ns [msg]
   (sh.exec
    (str "kubectl get namespaces")
