@@ -33,7 +33,8 @@
             (case cmd
               "!ping"      (chat/reply msg "pong")
               "!!ping"     (chat/reply msg "!ping")
-            
+
+              "!help"      (basic/get-help msg)
               "!kns"       (basic/get-ns msg)
               "!kgd"       (basic/get-deploy msg text)
               "!kgp"       (basic/get-pod msg text)
