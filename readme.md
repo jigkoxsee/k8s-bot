@@ -28,3 +28,16 @@ This built with no security feature in mind. Use it at yours own risk XD
 - [ ] K8S Driver
   - [X] Shell
   - [ ] API
+
+## Build Docker image
+
+```
+docker build -t k8s-bot .
+```
+
+
+## Run with Docker
+
+```
+docker run -v ~/.kube:/root/.kube -e DISCORD_TOKEN=<BOT_TOKEN>  k8s-bot
+```
