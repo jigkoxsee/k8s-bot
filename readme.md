@@ -19,9 +19,10 @@ This built with no security feature in mind. Use it at yours own risk XD
   - [ ] service
   - [ ] pod
 
+- [X] Delete deployment
+- [X] Delete Pod
+
 - [X] Get pod's log
-- [ ] Delete deployment
-- [ ] Delete Pod
 
 - [ ] Chat client
   - [X] Discord

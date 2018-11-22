@@ -14,8 +14,11 @@
       !kgp <namespace>\t\t\t\tlist pod in namespace\n
       !kgs <namespace>\t\t\t\tlist service in namespace\n
       \n
-      !kdn [namespace]\t\t\t\t describe namespaces with optional namespace name\n
-      !kdd <namespace> [deployment]\t\t\t\tdescribe deployment with optional deployment name\n
+      !kdn [namespace]\t\t\t\t describe namespaces\n
+      !kdd <namespace> [deployment]\t\t\t\tdescribe deployment\n
+
+      !kdeld <namespace> [deployment]\t\t\t\tdelete deployment\n
+      !kdelp <namespace> [deployment]\t\t\t\tdelete deployment\n
       ")))
 
 (defn get-ns [msg]
@@ -76,6 +79,28 @@
        (chat/reply msg out))
      (when (not= code 0)
        (chat/reply msg (str ":boom: describe deploy error: " err))))))
+
+
+(defn delete-deploy [msg [ns deploy]]
+  (chat/reply msg "deleting...")
+  (sh.exec
+   (str "kubectl delete deploy -n " ns " " deploy)
+   (fn [code out err]
+     (when out
+       (chat/reply msg out))
+     (when (not= code 0)
+       (chat/reply msg (str ":boom: delete deploy error: " err))))))
+
+
+(defn delete-pod [msg [ns pod]]
+  (chat/reply msg "deleting...")
+  (sh.exec
+   (str "kubectl delete pod -n " ns " " pod)
+   (fn [code out err]
+     (when out
+       (chat/reply msg out))
+     (when (not= code 0)
+       (chat/reply msg (str ":boom: delete pod error: " err))))))
 
 
 (defn get-log [msg [k-ns k-pod k-tail]]
