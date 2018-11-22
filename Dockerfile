@@ -13,9 +13,10 @@ RUN apt update \
 # bot
 RUN npm install -g --unsafe-perm lumo-cljs && mkdir /app
 ADD https://github.com/anmonteiro/lumo/raw/master/shared-libs/libstdc%2B%2B.so.6 /usr/lib/x86_64-linux-gnu/
-ADD . /app
+ADD package.json /app/
 WORKDIR /app
 RUN npm install 
+ADD . /app
 
 CMD ["/usr/local/bin/lumo","-c","/app/src","-m","kubee.core"]
 
